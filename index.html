@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RED-X HACKER v1.0 | WhatsApp Session Hijacker | By Abdul Rehman Rajpoot</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <video autoplay muted loop id="matrix-bg">
+    <source src="https://assets.mixkit.co/videos/preview/mixkit-cold-glowing-blue-vertical-lines-1217-large.mp4" type="video/mp4">
+  </video>
+
+  <div class="container">
+    <div class="terminal">
+      <div class="header">
+        <div class="dots">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <span class="prompt">root@redx-hacker:~$</span>
+      </div>
+
+      <div class="output" id="output">
+        <p><span class="green">[+] RED-X HACKER v1.0 Initialized</span></p>
+        <p><span class="cyan">[*] Linked to GitHub: AbdulRehman19721986/Red-x-Bot</span></p>
+        <p><span class="yellow">[!] Developed by Abdul Rehman Rajpoot - Advanced WhatsApp Bot</span></p>
+        <p><span class="red">[!] Session will auto-save to repo: redx-session-${number}.json</span></p>
+        <br>
+        <div class="progress-bar">
+          <div class="progress" id="progress"></div>
+        </div>
+        <p id="progress-text">Booting modules...</p>
+      </div>
+
+      <div class="input-area" id="input-area">
+        <label class="prompt">Target Phone Number (with country code):</label>
+        <input type="tel" id="number" placeholder="+923001234567" autofocus>
+        <button onclick="initiateHack()" class="btn-hack">INJECT SESSION & HACK</button>
+      </div>
+
+      <div id="qr-container" style="display: none;">
+        <p class="green">[+] QR Generated - Scan to Link Session to Red-x-Bot</p>
+        <div id="qrcode"></div>
+        <p id="session-status">Waiting for scan...</p>
+      </div>
+
+      <div id="status" class="status"></div>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 Abdul Rehman Rajpoot | <a href="https://github.com/AbdulRehman19721986/Red-x-Bot" target="_blank">Red-x-Bot Repo</a></p>
+    </footer>
+  </div>
+
+  <audio id="beep" src="assets/hack-beep.mp3" preload="auto"></audio>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
