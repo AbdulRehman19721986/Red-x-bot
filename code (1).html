@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redx Bot | Official Pairing Portal</title>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    :root {
+        --primary: #6a11cb;
+        --secondary: #2575fc;
+        --accent: #ff416c;
+        --dark: #121212;
+        --light: #f8f9fa;
+        --success: #25D366;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    body {
+        background: linear-gradient(135deg, var(--dark) 0%, #1a1a2e 100%);
+        color: var(--light);
+        min-height: 100vh;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 480px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+    }
+    
+    /* Header Styling */
+    .header {
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        padding: 30px 25px;
+        text-align: center;
+        position: relative;
+    }
+    
+    .owner-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    
+    .bot-icon {
+        font-size: 3.5rem;
+        margin-bottom: 15px;
+        color: white;
+        text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    h1 {
+        font-size: 2.2rem;
+        margin-bottom: 8px;
+        font-weight: 800;
+    }
+    
+    .tagline {
+        opacity: 0.9;
+        font-size: 1rem;
+    }
+    
+    /* Form Styling */
+    .form-container {
+        padding: 35px 30px;
+    }
+    
+    .input-group {
+        margin-bottom: 25px;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        color: #ddd;
+    }
+    
+    .input-with-icon {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    
+    .input-icon {
+        position: absolute;
+        left: 18px;
+        color: var(--primary);
+        font-size: 1.2rem;
+    }
+    
+    input {
+        width: 100%;
+        padding: 18px 18px 18px 55px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        color: white;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    input:focus {
+        outline: none;
+        border-color: var(--primary);
+        background: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2);
+    }
+    
+    /* Pair Button */
+    .pair-btn {
+        background: linear-gradient(90deg, var(--success), #1da851);
+        color: white;
+        border: none;
+        width: 100%;
+        padding: 20px;
+        border-radius: 15px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+    }
+    
+    .pair-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+    }
+    
+    .pair-btn:active {
+        transform: translateY(0);
+    }
+    
+    /* Result Display */
+    .result-card {
+        background: linear-gradient(135deg, rgba(37, 117, 252, 0.15), rgba(106, 17, 203, 0.15));
+        border-radius: 20px;
+        padding: 25px;
+        margin-top: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: none;
+        text-align: center;
+        animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .result-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        color: var(--success);
+    }
+    
+    .pairing-code {
+        font-size: 2.8rem;
+        font-weight: 800;
+        letter-spacing: 5px;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 15px;
+        border-radius: 12px;
+        margin: 20px 0;
+        color: #ffeb3b;
+        font-family: monospace;
+        border: 2px dashed var(--accent);
+    }
+    
+    .instructions {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        border-radius: 15px;
+        margin-top: 25px;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+    
+    .instructions h3 {
+        color: var(--secondary);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .steps {
+        text-align: left;
+        padding-left: 20px;
+    }
+    
+    .steps li {
+        margin-bottom: 10px;
+        padding-left: 5px;
+    }
+    
+    /* Footer */
+    .footer {
+        text-align: center;
+        padding: 25px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        font-size: 0.9rem;
+        color: #aaa;
+        line-height: 1.5;
+    }
+    
+    .github-link {
+        color: var(--secondary);
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 5px;
+        display: inline-block;
+    }
+    
+    .github-link:hover {
+        text-decoration: underline;
+    }
+    
+    /* Mobile Optimizations */
+    @media (max-width: 500px) {
+        .container {
+            border-radius: 20px;
+        }
+        .header {
+            padding: 25px 20px;
+        }
+        h1 {
+            font-size: 1.9rem;
+        }
+        .form-container {
+            padding: 30px 20px;
+        }
+        .pairing-code {
+            font-size: 2.2rem;
+            letter-spacing: 3px;
+            padding: 12px;
+        }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="owner-badge">
+        <i class="fas fa-crown"></i> Abdul Rehman Rajpoot
+      </div>
+      <div class="bot-icon">
+        <i class="fas fa-robot"></i>
+      </div>
+      <h1>REDX BOT</h1>
+      <p class="tagline">Advanced WhatsApp Automation & Service Hub</p>
+    </div>
+
+    <div class="form-container">
+      <div class="input-group">
+        <label for="userName"><i class="fas fa-user"></i> Your Full Name</label>
+        <div class="input-with-icon">
+          <div class="input-icon"><i class="fas fa-user-circle"></i></div>
+          <input type="text" id="userName" placeholder="Enter your full name" required>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="whatsappNumber"><i class="fab fa-whatsapp"></i> WhatsApp Number</label>
+        <div class="input-with-icon">
+          <div class="input-icon"><i class="fas fa-phone"></i></div>
+          <input type="tel" id="whatsappNumber" placeholder="+92 300 1234567 (with country code)"
+            required>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="githubUser"><i class="fab fa-github"></i> GitHub Username (Optional)</label>
+        <div class="input-with-icon">
+          <div class="input-icon"><i class="fas fa-code-branch"></i></div>
+          <input type="text" id="githubUser" placeholder="Your GitHub username for integration">
+        </div>
+      </div>
+
+      <button class="pair-btn" id="pairButton" onclick="initiatePairing()">
+        <i class="fas fa-link"></i> GENERATE & PAIR DEVICE
+      </button>
+
+      <!-- Results will be shown here -->
+      <div class="result-card" id="resultCard">
+        <!-- Content filled by JavaScript -->
+      </div>
+
+      <div class="instructions">
+        <h3><i class="fas fa-info-circle"></i> How to Complete Pairing</h3>
+        <ol class="steps">
+          <li>Fill in your details above and click the <strong>GENERATE & PAIR</strong> button.</li>
+          <li>A unique <strong>6-digit Pairing Code</strong> will be created for you.</li>
+          <li>Open <strong>WhatsApp</strong> and send this exact code to the official <strong>Redx
+              Bot</strong> number.</li>
+          <li>The bot will verify the code and confirm your pairing. You will receive a welcome
+            message.</li>
+          <li>After confirmation, you can start using all features of Redx Bot.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>© 2023 Redx Bot Pairing System. All rights reserved.</p>
+      <p>This portal securely connects your WhatsApp to the official <strong>Redx Bot</strong>
+        service.</p>
+      <a href="https://github.com/AbdulRehman19721986/Red-x-bot.git" class="github-link"
+        target="_blank">
+        <i class="fab fa-github"></i> View Bot Project on GitHub
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Function to generate a secure pairing code
+    function generatePairingCode() {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Removed ambiguous chars
+        let code = '';
+        for (let i = 0; i < 6; i++) {
+            code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return code;
+    }
+    
+    // Main pairing function
+    function initiatePairing() {
+        const userName = document.getElementById('userName').value.trim();
+        const whatsappNumber = document.getElementById('whatsappNumber').value.trim();
+        const githubUser = document.getElementById('githubUser').value.trim();
+        const pairButton = document.getElementById('pairButton');
+        const resultCard = document.getElementById('resultCard');
+    
+        // Simple validation
+        if (!userName || !whatsappNumber) {
+            alert('Please fill in your Name and WhatsApp Number to proceed.');
+            return;
+        }
+    
+        // Disable button and show loading
+        pairButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERATING SECURE CODE...';
+        pairButton.disabled = true;
+    
+        // Simulate API call delay
+        setTimeout(() => {
+            // Generate the pairing code
+            const pairingCode = generatePairingCode();
+            const timestamp = new Date().toLocaleString();
+    
+            // Prepare the data object (in a real app, you would send this to your server)
+            const userPairingData = {
+                name: userName,
+                number: whatsappNumber,
+                github: githubUser || 'Not Provided',
+                code: pairingCode,
+                time: timestamp,
+                status: 'PENDING_VERIFICATION'
+            };
+    
+            // Display the result to the user
+            resultCard.innerHTML = `
+                <div class="result-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Pairing Code Generated!</h2>
+                <p>Your connection to <strong>Redx Bot</strong> has been initialized.</p>
+                <div class="pairing-code">${pairingCode}</div>
+                <p><strong>Instructions:</strong></p>
+                <p>Open WhatsApp and send the code above to the official Redx Bot number to verify and activate your connection.</p>
+                <p style="margin-top:15px; font-size:0.9rem; color:#aaa;">
+                    <i class="fas fa-user"></i> <strong>Name:</strong> ${userName}<br>
+                    <i class="fab fa-whatsapp"></i> <strong>Number:</strong> ${whatsappNumber}<br>
+                    <i class="far fa-clock"></i> <strong>Generated:</strong> ${timestamp}
+                </p>
+            `;
+    
+            // Show the result card with animation
+            resultCard.style.display = 'block';
+    
+            // In a REAL application, you would send `userPairingData` to your backend server here.
+            // Example using fetch():
+            // fetch('https://your-backend-server.com/api/pair', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(userPairingData)
+            // }).then(response => response.json())
+            //   .then(data => console.log('Pairing data sent to bot:', data));
+    
+            console.log('Pairing Data for Bot Backend:', userPairingData);
+            alert('Pairing code generated! Please check the portal and follow the instructions.');
+    
+            // Reset button after a moment
+            setTimeout(() => {
+                pairButton.innerHTML = '<i class="fas fa-link"></i> PAIR ANOTHER DEVICE';
+                pairButton.disabled = false;
+            }, 2000);
+    
+        }, 1500); // Simulated network delay
+    }
+    
+    // Optional: Auto-focus on the first input
+    window.onload = function() {
+        document.getElementById('userName').focus();
+    };
+  </script>
+</body>
+
+</html>
